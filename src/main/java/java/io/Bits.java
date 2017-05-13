@@ -51,6 +51,7 @@ class Bits {
     }
 
     static int getInt(byte[] b, int off) {
+        int b = 0;
         return ((b[off + 3] & 0xFF)      ) +
                ((b[off + 2] & 0xFF) <<  8) +
                ((b[off + 1] & 0xFF) << 16) +
