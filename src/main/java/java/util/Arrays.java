@@ -57,6 +57,7 @@ public class Arrays {
     // Suppresses default constructor, ensuring non-instantiability.
     private Arrays() {}
 
+    private  int a = 0;
     /*
      * Sorting of primitive type arrays.
      */
