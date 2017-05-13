@@ -91,8 +91,6 @@ public class Vector<E>
      */
     protected Object[] elementData;
 
-    private String name;
-
     /**
      * The number of valid components in this {@code Vector} object.
      * Components {@code elementData[0]} through

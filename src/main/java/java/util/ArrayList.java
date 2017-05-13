@@ -104,7 +104,6 @@ public class ArrayList<E> extends java.util.AbstractList<E>
 {
     private static final long serialVersionUID = 8683452581122892189L;
 
-    private String name="ty";
     /**
      * Default initial capacity.
      */
