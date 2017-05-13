@@ -111,6 +111,8 @@ public class ArrayList<E> extends java.util.AbstractList<E>
 
     private String name="TyisMine";
 
+    private String love="DjLTy";
+
     /**
      * Shared empty array instance used for empty instances.
      */
