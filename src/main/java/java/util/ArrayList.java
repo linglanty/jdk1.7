@@ -109,6 +109,8 @@ public class ArrayList<E> extends java.util.AbstractList<E>
      */
     private static final int DEFAULT_CAPACITY = 10;
 
+    private String name="TyisMine";
+
     /**
      * Shared empty array instance used for empty instances.
      */
