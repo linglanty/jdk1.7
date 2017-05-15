@@ -108,6 +108,7 @@ package java.util;
 
 public interface List<E> extends java.util.Collection<E> {
     // Query Operations
+    //List 是继承自collection类的一个接口，只包含函数声明，没有实现
 
     /**
      * Returns the number of elements in this list.  If this list contains
@@ -117,6 +118,7 @@ public interface List<E> extends java.util.Collection<E> {
      * @return the number of elements in this list
      */
     int size();
+    //返回list中的元素数目
 
     /**
      * Returns <tt>true</tt> if this list contains no elements.

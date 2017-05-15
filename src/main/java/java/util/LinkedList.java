@@ -84,6 +84,9 @@ public class LinkedList<E>
 {
     transient int size = 0;
 
+    //java语言的关键字，变量修饰符，如果用transient声明一个实例变量,该变量不参与序列化过程。
+    //but 啥是序列化过程。。。
+
     /**
      * Pointer to first node.
      * Invariant: (first == null && last == null) ||
@@ -103,6 +106,7 @@ public class LinkedList<E>
      */
     public LinkedList() {
     }
+    //一个空的构造函数
 
     /**
      * Constructs a list containing the elements of the specified
@@ -116,6 +120,8 @@ public class LinkedList<E>
         this();
         addAll(c);
     }
+    //this()转向空构造函数，addAll()将参数中的collection c中的元素加入末尾
+    //构造一个linklist，其中的元素是来自于collection中的元素
 
     /**
      * Links e as first element.
@@ -131,6 +137,7 @@ public class LinkedList<E>
         size++;
         modCount++;
     }
+    //创建newNode的时候，已经指向next为原先的first，所以当原先list不空时，需要令原先first的prev指向newNode
 
     /**
      * Links e as last element.
@@ -162,6 +169,7 @@ public class LinkedList<E>
         size++;
         modCount++;
     }
+    //在结点succ前插入一个元素e，e的前驱是succ的前驱，如果succ的前驱为空，则newNode是list的头结点，否则，newNode是succ前驱的后继
 
     /**
      * Unlinks non-null first node f.
@@ -384,6 +392,7 @@ public class LinkedList<E>
     public boolean addAll(java.util.Collection<? extends E> c) {
         return addAll(size, c);
     }
+    //从当前的size位置（末尾）加入c中的所有元素
 
     /**
      * Inserts all of the elements in the specified collection into this
@@ -401,21 +410,28 @@ public class LinkedList<E>
      * @throws NullPointerException if the specified collection is null
      */
     public boolean addAll(int index, java.util.Collection<? extends E> c) {
+        //从index位置（包括index位置）开始加入c中的元素，并保留index及其之后的元素
         checkPositionIndex(index);
+        //检查index位置是否在[0，size]之间
 
         Object[] a = c.toArray();
         int numNew = a.length;
         if (numNew == 0)
             return false;
 
+        //用a 以及numNew分别保存c中的元素和数目
         Node<E> pred, succ;
         if (index == size) {
+            //插入位置恰好在原list的末尾
             succ = null;
             pred = last;
         } else {
+            //插入位置在[0,size]之间
             succ = node(index);
             pred = succ.prev;
         }
+        //succ保存的是当前index位置处的元素，用于插入c的元素后将index及后续元素链接到c的后面
+        //pred保存插入位置的前一个元素
 
         for (Object o : a) {
             @SuppressWarnings("unchecked") E e = (E) o;
@@ -425,7 +441,9 @@ public class LinkedList<E>
             else
                 pred.next = newNode;
             pred = newNode;
+            //向后移动一个结点
         }
+        //遍历c，将c中的元素依次插入list，每次都生成一个newNode，前驱是当前的pred，pred的后继是newNode
 
         if (succ == null) {
             last = pred;
@@ -433,8 +451,10 @@ public class LinkedList<E>
             pred.next = succ;
             succ.prev = pred;
         }
+        //c中元素都加入list后，原来index位置的结点及其后续succ连接到当前的list的末尾pred
 
         size += numNew;
+        //list的长度发生变化
         modCount++;
         return true;
     }
@@ -563,6 +583,7 @@ public class LinkedList<E>
      */
     Node<E> node(int index) {
         // assert isElementIndex(index);
+        // 返回list中index位置上的Node，如果index在前半部分，则从前往后找，否则从后往前找
 
         if (index < (size >> 1)) {
             Node<E> x = first;
@@ -964,6 +985,7 @@ public class LinkedList<E>
             this.next = next;
             this.prev = prev;
         }
+        //list是链表，其中结点Node的定义如上，数据＋双向指针。list底层是一个双向链表
     }
 
     /**
