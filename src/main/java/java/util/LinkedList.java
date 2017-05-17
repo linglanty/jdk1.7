@@ -189,6 +189,8 @@ public class LinkedList<E>
         modCount++;
         return element;
     }
+    //假设f是一个linklist的第一个且不空的结点，该函数的目的是删去这个结点，且返回该结点的值。
+    //首先用element和next分别保存f的值和下个结点，然后置f为空，并且断开f与list，next置为头结点，且处理删除f后的list。
 
     /**
      * Unlinks non-null last node l.
@@ -208,6 +210,7 @@ public class LinkedList<E>
         modCount++;
         return element;
     }
+    //同上，删除linklist中最后一个且非空的结点，返回它的值并做相应的链表处理。
 
     /**
      * Unlinks non-null node x.
@@ -219,18 +222,25 @@ public class LinkedList<E>
         final Node<E> prev = x.prev;
 
         if (prev == null) {
+            //prev == null 说明当前结点x是头结点，删去后，当前结点的下一个结点是first
             first = next;
         } else {
+            //当前结点不是头结点，当前结点的前驱的后继指向当前结点的后继
             prev.next = next;
             x.prev = null;
+            //断开链接
         }
 
         if (next == null) {
+            //当前结点x是尾结点，删去后当前结点的前驱是尾结点
             last = prev;
         } else {
+            //当前结点x不是尾结点，当前结点的前驱是当前结点后继的前驱
             next.prev = prev;
             x.next = null;
+            //断开链接
         }
+        //删去链表中的一个非空元素
 
         x.item = null;
         size--;
@@ -250,6 +260,7 @@ public class LinkedList<E>
             throw new java.util.NoSuchElementException();
         return f.item;
     }
+    //获取linklist的头元素
 
     /**
      * Returns the last element in this list.
@@ -263,6 +274,7 @@ public class LinkedList<E>
             throw new java.util.NoSuchElementException();
         return l.item;
     }
+    //获取linklist的尾元素
 
     /**
      * Removes and returns the first element from this list.
@@ -276,6 +288,7 @@ public class LinkedList<E>
             throw new java.util.NoSuchElementException();
         return unlinkFirst(f);
     }
+    //调用解除linklist的一个结点的方法，只是没有显式的给出这个结点
 
     /**
      * Removes and returns the last element from this list.
@@ -289,6 +302,7 @@ public class LinkedList<E>
             throw new java.util.NoSuchElementException();
         return unlinkLast(l);
     }
+    //同上
 
     /**
      * Inserts the specified element at the beginning of this list.
@@ -298,6 +312,7 @@ public class LinkedList<E>
     public void addFirst(E e) {
         linkFirst(e);
     }
+    //在链头添加一个元素
 
     /**
      * Appends the specified element to the end of this list.
@@ -309,6 +324,7 @@ public class LinkedList<E>
     public void addLast(E e) {
         linkLast(e);
     }
+    //在链尾添加一个元素
 
     /**
      * Returns {@code true} if this list contains the specified element.
@@ -322,6 +338,7 @@ public class LinkedList<E>
     public boolean contains(Object o) {
         return indexOf(o) != -1;
     }
+    //查找某个元素是否在linklist中，就是找他的下标是否存在，若不存在，则返回false。
 
     /**
      * Returns the number of elements in this list.
@@ -344,6 +361,7 @@ public class LinkedList<E>
         linkLast(e);
         return true;
     }
+    //在linklist尾部添加一个元素，并且返回true
 
     /**
      * Removes the first occurrence of the specified element from this list,
@@ -376,6 +394,7 @@ public class LinkedList<E>
         }
         return false;
     }
+    //删除linklist中值为o的结点，从前向后遍历linklist，如果遇到跟o相等的值，就删除这个结点
 
     /**
      * Appends all of the elements in the specified collection to the end of
@@ -622,12 +641,16 @@ public class LinkedList<E>
         } else {
             for (Node<E> x = first; x != null; x = x.next) {
                 if (o.equals(x.item))
+
+                    //o的this是否等于x.item
+
                     return index;
                 index++;
             }
         }
         return -1;
     }
+    //找到object o的索引下标，注意，这里node的数据域定义的是继承自object的类，所以，o分为null与非null两种，各自都是从头开始遍历list，返回值等于o的下标
 
     /**
      * Returns the index of the last occurrence of the specified element
@@ -657,6 +680,7 @@ public class LinkedList<E>
         }
         return -1;
     }
+    //从后往前遍历linklist，从中找到o的索引下标
 
     // Queue operations.
 
@@ -670,6 +694,7 @@ public class LinkedList<E>
         final Node<E> f = first;
         return (f == null) ? null : f.item;
     }
+    //获取访问linklist中的头结点元素，但是不移除，如果头结点为空，则返回null
 
     /**
      * Retrieves, but does not remove, the head (first element) of this list.
@@ -681,6 +706,7 @@ public class LinkedList<E>
     public E element() {
         return getFirst();
     }
+    // 获取访问linklist中的头结点元素，但是不移除，如果头结点为空，则抛出异常
 
     /**
      * Retrieves and removes the head (first element) of this list.
@@ -692,6 +718,7 @@ public class LinkedList<E>
         final Node<E> f = first;
         return (f == null) ? null : unlinkFirst(f);
     }
+    //摘掉并返回linklist的头结点，如果该头结点为null，则返回null
 
     /**
      * Retrieves and removes the head (first element) of this list.
@@ -703,6 +730,9 @@ public class LinkedList<E>
     public E remove() {
         return removeFirst();
     }
+    //摘掉并返回linklist的头结点，如果头结点为null，则抛出异常
+
+
 
     /**
      * Adds the specified element as the tail (last element) of this list.
@@ -711,9 +741,11 @@ public class LinkedList<E>
      * @return {@code true} (as specified by {@link java.util.Queue#offer})
      * @since 1.5
      */
+
     public boolean offer(E e) {
         return add(e);
     }
+    //本质还是linklast（e）
 
     // Deque operations
     /**
@@ -727,6 +759,7 @@ public class LinkedList<E>
         addFirst(e);
         return true;
     }
+    //本质还是linkfirst（e）
 
     /**
      * Inserts the specified element at the end of this list.
@@ -739,6 +772,12 @@ public class LinkedList<E>
         addLast(e);
         return true;
     }
+    //本质还是linklast（e）
+
+    /**
+     * offerLast（），offer（）都是调用linklast（）方法，在linklast尾部添加元素；
+     * offerFirst（）是调用linkfirst（）方法，在linkfirst处添加元素
+     */
 
     /**
      * Retrieves, but does not remove, the first element of this list,
@@ -793,6 +832,18 @@ public class LinkedList<E>
     }
 
     /**
+     * 有关获取头、尾结点元素的方法总结：
+     * peek（），peekFirst（）获取头结点但不删除，如果头结点为空，则返回空；
+     * element（）获取头结点但不删除，如果头结点为空，则抛出没有这样的元素异常；
+     * poll（），pollFirst（）获取并删除头结点，如果头结点为空，则返回空；
+     * remove（）获取并删除头结点，如果头结点为空，则抛出没有这样的元素异常。
+     * 有关获取尾结点的方法总结：
+     * peekLast（）获取尾结点但不删除，如果尾结点为空，则返回空；
+     * pollLast（）获取尾结点并并删除该结点，如果尾结点为空，则返回空。
+     */
+
+
+    /**
      * Pushes an element onto the stack represented by this list.  In other
      * words, inserts the element at the front of this list.
      *
@@ -804,6 +855,7 @@ public class LinkedList<E>
     public void push(E e) {
         addFirst(e);
     }
+    //将 一个元素加入链表头部，相当于入栈
 
     /**
      * Pops an element from the stack represented by this list.  In other
@@ -819,6 +871,7 @@ public class LinkedList<E>
     public E pop() {
         return removeFirst();
     }
+    //将一个头结点元素（栈顶元素）移除并返回
 
     /**
      * Removes the first occurrence of the specified element in this
@@ -833,6 +886,7 @@ public class LinkedList<E>
         return remove(o);
     }
 
+    //删除linklist中第一个等于o的结点
     /**
      * Removes the last occurrence of the specified element in this
      * list (when traversing the list from head to tail).  If the list
@@ -860,6 +914,7 @@ public class LinkedList<E>
         }
         return false;
     }
+    // 从linkllist的尾部开始遍历，找到最后一次出现o的结点，删除并返回false布尔值
 
     /**
      * Returns a list-iterator of the elements in this list (in proper
@@ -886,33 +941,49 @@ public class LinkedList<E>
         checkPositionIndex(index);
         return new ListItr(index);
     }
+    //首先检查传入的index参数的合法性，然后将index位置的结点赋给next
 
     private class ListItr implements java.util.ListIterator<E> {
+
+        /**
+         * Iterator 是一个java迭代器，迭代器是一种设计模式，是一个对象，可以用来遍历并选择序列中的对象，而不需要关注底层的细节
+         * 只能单向移动，继承自他的listIterator不仅可两个方向移动还可以插入删除元素。
+         */
+        //listItr是对继承自Iterator接口的ListIterator接口的实现
         private Node<E> lastReturned = null;
+        //用于记录上一次迭代的结点
         private Node<E> next;
+        //用于记录下一个要遍历的位置
         private int nextIndex;
+        //记录下一个要遍历的位置的索引
         private int expectedModCount = modCount;
 
         ListItr(int index) {
+            //listItr的带参构造函数，表示遍历从index开始
             // assert isPositionIndex(index);
             next = (index == size) ? null : node(index);
             nextIndex = index;
         }
+        //如果当前的index已经到达末尾，则记录list的next为空，否则设置index位置处的结点为下即将一个遍历的结点，nextindex为index
 
         public boolean hasNext() {
             return nextIndex < size;
         }
+        //判断是否有后继
 
         public E next() {
             checkForComodification();
             if (!hasNext())
                 throw new java.util.NoSuchElementException();
+            //已到达linklist末尾
 
             lastReturned = next;
-            next = next.next;
+            //下一个即将遍历的结点（被返回）存储在lastReturned中
+            next = next.next;//遍历向右移动一位
             nextIndex++;
             return lastReturned.item;
         }
+        //list中还有元素，返回下一个元素
 
         public boolean hasPrevious() {
             return nextIndex > 0;
@@ -923,10 +994,17 @@ public class LinkedList<E>
             if (!hasPrevious())
                 throw new java.util.NoSuchElementException();
 
-            lastReturned = next = (next == null) ? last : next.prev;
+            next = (next == null) ? last : next.prev;
+            //如果当前已经便利到list末尾，那么他的前一个元素（即将遍历的）是last，否则是当前元素next的prev
+            lastReturned = next;;
             nextIndex--;
             return lastReturned.item;
         }
+        /***
+         * 注意区别next（）和previous（）：
+         * next（）中，由于next指针指向向右方向下一个node，所以向右遍历时，先访问这个结点在移动指针；
+         * previous（）中，同样由于next指针指向向右方向的下一个node，所以向左遍历时，先修改指针，在访问指针指向的结点
+         */
 
         public int nextIndex() {
             return nextIndex;
@@ -937,15 +1015,23 @@ public class LinkedList<E>
         }
 
         public void remove() {
+            // remove（）方法只能用在next（）或previous（）方法后，add（）方法后不可以使用，但是remove（）后可以add（）
             checkForComodification();
             if (lastReturned == null)
                 throw new IllegalStateException();
 
             Node<E> lastNext = lastReturned.next;
+            //lastNext用于保存被移除的node的next
             unlink(lastReturned);
+            //从list中移除lastReturned，并将该结点前后结点链接起来
             if (next == lastReturned)
+                //对应于previous（）情况，由于先移动指针后获取前继结点，所以next== lastReturned，
+                // remove了lastReturned结点后，next指针丢失，所以将lastNext赋给next，
+                //另外由于新的next代替原来的next，所以nextIndex不变
                 next = lastNext;
             else
+                //对应于next（）情况，由于先获取后继结点后移动指针，所以next！=lastReturned，remove了lastReturned后，
+                // next保持原来的不发生变化，但是其对应的nextIndex减1
                 nextIndex--;
             lastReturned = null;
             expectedModCount++;
@@ -957,19 +1043,23 @@ public class LinkedList<E>
             checkForComodification();
             lastReturned.item = e;
         }
+        //修改当前遍历的结点的值
 
         public void add(E e) {
             checkForComodification();
             lastReturned = null;
             if (next == null)
                 linkLast(e);
+            //当前迭代器已经遍历到list末尾，则直接添加在list末尾
             else
                 linkBefore(e, next);
+            //当前迭代器没有遍历到list末尾，则在下一个遍历的结点前加入
             nextIndex++;
             expectedModCount++;
         }
 
         final void checkForComodification() {
+            //网上说是fail-fast，并不懂
             if (modCount != expectedModCount)
                 throw new java.util.ConcurrentModificationException();
         }
@@ -1010,6 +1100,7 @@ public class LinkedList<E>
             itr.remove();
         }
     }
+    //在降序的迭代器中，hasnext（）和hasprevious（）方法与升序中的相反。
 
     @SuppressWarnings("unchecked")
     private LinkedList<E> superClone() {
@@ -1116,6 +1207,7 @@ public class LinkedList<E>
 
         return a;
     }
+    //linklist中的所有元素存入数组a，并返回
 
     private static final long serialVersionUID = 876323262645176354L;
 
